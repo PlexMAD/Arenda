@@ -20,7 +20,10 @@ interface Rieltor {
     fee_rate?: number;
 }
 
+
 const User = () => {
+
+    const [address, setAddress] = useState('127.0.0.1:8000/')
     const [clients, setClients] = useState<Client[]>([]);
     const [rieltors, setRieltors] = useState<Rieltor[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
@@ -30,20 +33,20 @@ const User = () => {
     useEffect(() => {
         const fetchAll = async () => {
             const [clientResponse, rieltorResponse] = await Promise.all(
-                [axios.get<Client[]>("http://127.0.0.1:8000/clients/"),
-                axios.get<Rieltor[]>("http://127.0.0.1:8000/rieltors/"),]
+                [axios.get<Client[]>(`http://${address}clients/`),
+                axios.get<Rieltor[]>(`http://${address}rieltors/`),]
             )
             setClients(clientResponse.data)
             setRieltors(rieltorResponse.data)
         }
         fetchAll()
-    }, [])
+    }, [address])
 
     const handleSearch = async () => {
         try {
             const [clientResponse, rieltorResponse] = await Promise.all([
-                axios.get<Client[]>(`http://127.0.0.1:8000/clients/search/?q=${searchQuery}`),
-                axios.get<Rieltor[]>(`http://127.0.0.1:8000/rieltors/search/?q=${searchQuery}`)
+                axios.get<Client[]>(`http://${address}/clients/search/?q=${searchQuery}`),
+                axios.get<Rieltor[]>(`http://${address}/rieltors/search/?q=${searchQuery}`)
             ]);
             setClients(clientResponse.data);
             setRieltors(rieltorResponse.data);
@@ -57,7 +60,7 @@ const User = () => {
             Alert.alert('Ошибка', 'Необходимо указать номер телефона или почту.');
             return;
         }
-        await axios.post('http://127.0.0.1:8000/clients/', newClient);
+        await axios.post(`http://${address}/clients/`, newClient);
         setNewClient({});
         handleSearch();
     };
@@ -67,23 +70,24 @@ const User = () => {
             Alert.alert('Ошибка', 'Фамилия, имя и отчество обязательны.');
             return;
         }
-        await axios.post('http://127.0.0.1:8000/rieltors/', newRieltor);
+        await axios.post(`http://${address}/rieltors/`, newRieltor);
         setNewRieltor({ surname: '', name: '', grand_name: '' });
         handleSearch();
     };
 
     const deleteClient = async (id: number) => {
-        await axios.delete(`http://127.0.0.1:8000/clients/${id}/`);
+        await axios.delete(`http://${address}/clients/${id}/`);
         handleSearch();
     };
 
     const deleteRieltor = async (id: number) => {
-        await axios.delete(`http://127.0.0.1:8000/rieltors/${id}/`);
+        await axios.delete(`http://${address}/rieltors/${id}/`);
         handleSearch();
     };
 
     return (
         <View style={mainStyle.main}>
+            <Button title={address} onPress={() => { setAddress(address == '127.0.0.1:8000' ? '10.0.2.2:8000' : '127.0.0.1:8000') }} />
             <Text style={mainStyle.title}>Добавить клиента</Text>
             <TextInput placeholder="Фамилия" value={newClient.surname || ''} onChangeText={(text) => setNewClient({ ...newClient, surname: text })} style={mainStyle.input} />
             <TextInput placeholder="Имя" value={newClient.name || ''} onChangeText={(text) => setNewClient({ ...newClient, name: text })} style={mainStyle.input} />
