@@ -31,5 +31,5 @@ dist/
 # OS files
 Thumbs.db
 .DS_Store
-.sqlite3
 
+db.sqlite3
