@@ -7,3 +7,8 @@ from .serializers import *
 class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
+
+
+class RieltorViewSet(viewsets.ModelViewSet):
+    queryset = Rieltor.objects.all()
+    serializer_class = RieltorSerializer

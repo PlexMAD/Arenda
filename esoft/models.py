@@ -1,11 +1,12 @@
 from django.db import models
 
-# Create your models here.
 class Client(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True,)
     name = models.TextField(db_column='Имя', blank=True)
     surname = models.TextField(db_column='Фамилия', blank=True)
     grand_name = models.TextField(db_column='Отчество', blank=True)
+    email = models.CharField(max_length=20, blank=True)
+    phone = models.CharField(max_length=12, blank=True)
 
     class Meta:
         db_table = 'Client'
