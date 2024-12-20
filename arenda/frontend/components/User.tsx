@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, Button, FlatList, Alert, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, FlatList, Alert, TouchableOpacity, ScrollView } from 'react-native';
 import { mainStyle } from '../styles/style';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -20,33 +20,31 @@ interface Rieltor {
     fee_rate?: number;
 }
 
-
 const User = () => {
-
-    const [address, setAddress] = useState('127.0.0.1:8000/')
+    const [address, setAddress] = useState('127.0.0.1:8000/');
     const [clients, setClients] = useState<Client[]>([]);
     const [rieltors, setRieltors] = useState<Rieltor[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
-
     const [newClient, setNewClient] = useState<Client>({});
     const [newRieltor, setNewRieltor] = useState<Rieltor>({ surname: '', name: '', grand_name: '' });
+
     useEffect(() => {
         const fetchAll = async () => {
-            const [clientResponse, rieltorResponse] = await Promise.all(
-                [axios.get<Client[]>(`http://${address}clients/`),
-                axios.get<Rieltor[]>(`http://${address}rieltors/`),]
-            )
-            setClients(clientResponse.data)
-            setRieltors(rieltorResponse.data)
-        }
-        fetchAll()
-    }, [address])
+            const [clientResponse, rieltorResponse] = await Promise.all([
+                axios.get<Client[]>(`http://${address}clients/`),
+                axios.get<Rieltor[]>(`http://${address}rieltors/`),
+            ]);
+            setClients(clientResponse.data);
+            setRieltors(rieltorResponse.data);
+        };
+        fetchAll();
+    }, [address]);
 
     const handleSearch = async () => {
         try {
             const [clientResponse, rieltorResponse] = await Promise.all([
                 axios.get<Client[]>(`http://${address}/clients/search/?q=${searchQuery}`),
-                axios.get<Rieltor[]>(`http://${address}/rieltors/search/?q=${searchQuery}`)
+                axios.get<Rieltor[]>(`http://${address}/rieltors/search/?q=${searchQuery}`),
             ]);
             setClients(clientResponse.data);
             setRieltors(rieltorResponse.data);
@@ -86,8 +84,8 @@ const User = () => {
     };
 
     return (
-        <View style={mainStyle.main}>
-            <Button title={address} onPress={() => { setAddress(address == '127.0.0.1:8000' ? '10.0.2.2:8000' : '127.0.0.1:8000') }} />
+        <ScrollView style={mainStyle.main}>
+            <Button title={address} onPress={() => { setAddress(address === '127.0.0.1:8000' ? '10.0.2.2:8000' : '127.0.0.1:8000'); }} />
             <Text style={mainStyle.title}>Добавить клиента</Text>
             <TextInput placeholder="Фамилия" value={newClient.surname || ''} onChangeText={(text) => setNewClient({ ...newClient, surname: text })} style={mainStyle.input} />
             <TextInput placeholder="Имя" value={newClient.name || ''} onChangeText={(text) => setNewClient({ ...newClient, name: text })} style={mainStyle.input} />
@@ -130,7 +128,7 @@ const User = () => {
                     </View>
                 )}
             />
-        </View>
+        </ScrollView>
     );
 };
 
