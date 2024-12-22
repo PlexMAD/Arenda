@@ -10,7 +10,7 @@ import {
 import axios from 'axios';
 
 interface RealEstate {
-    id?: number | null;
+    id: number;
     city?: string | null;
     street?: string | null;
     house?: string | null;
@@ -26,10 +26,10 @@ interface RealEstate {
 const Objects: React.FC = () => {
     const [realEstateList, setRealEstateList] = useState<RealEstate[]>([]);
     const [newRealEstate, setNewRealEstate] = useState<Omit<RealEstate, 'id'>>({
-        city: '',
-        street: '',
-        house: '',
-        flat: '',
+        city: null,
+        street: null,
+        house: null,
+        flat: null,
         coordinate_x: 0,
         coordinate_y: 0,
         floors_quantity: null,
@@ -55,28 +55,15 @@ const Objects: React.FC = () => {
     };
 
     const addRealEstate = async (): Promise<void> => {
-        const validRealEstate = {
-            ...newRealEstate,
-            floors_quantity: newRealEstate.floors_quantity === null ? undefined : newRealEstate.floors_quantity,
-            rooms_quantity: newRealEstate.rooms_quantity === null ? undefined : newRealEstate.rooms_quantity,
-            square: newRealEstate.square === null ? undefined : newRealEstate.square,
-            floor: newRealEstate.floor === null ? undefined : newRealEstate.floor,
-        };
-
         try {
-            const response = await axios.post('http://10.0.2.2:8000/rental/', validRealEstate, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
+            const response = await axios.post('http://10.0.2.2:8000/rental/', newRealEstate);
             if (response.status === 200 || response.status === 201) {
                 fetchRealEstateList();
                 setNewRealEstate({
-                    city: '',
-                    street: '',
-                    house: '',
-                    flat: '',
+                    city: null,
+                    street: null,
+                    house: null,
+                    flat: null,
                     coordinate_x: 0,
                     coordinate_y: 0,
                     floors_quantity: null,
@@ -113,28 +100,28 @@ const Objects: React.FC = () => {
             <Text>Добавить объект недвижимости</Text>
             <TextInput
                 placeholder="Введите город"
-                value={newRealEstate.city}
+                value={newRealEstate.city || ''}
                 onChangeText={(text) =>
                     setNewRealEstate({ ...newRealEstate, city: text })
                 }
             />
             <TextInput
                 placeholder="Введите улицу"
-                value={newRealEstate.street}
+                value={newRealEstate.street || ''}
                 onChangeText={(text) =>
                     setNewRealEstate({ ...newRealEstate, street: text })
                 }
             />
             <TextInput
                 placeholder="Введите номер дома"
-                value={newRealEstate.house}
+                value={newRealEstate.house || ''}
                 onChangeText={(text) =>
                     setNewRealEstate({ ...newRealEstate, house: text })
                 }
             />
             <TextInput
                 placeholder="Введите номер квартиры"
-                value={newRealEstate.flat}
+                value={newRealEstate.flat || ''}
                 onChangeText={(text) =>
                     setNewRealEstate({ ...newRealEstate, flat: text })
                 }
@@ -167,7 +154,7 @@ const Objects: React.FC = () => {
                 onChangeText={(text) =>
                     setNewRealEstate({
                         ...newRealEstate,
-                        floors_quantity: parseFloat(text) || null,
+                        floors_quantity: parseInt(text) || null,
                     })
                 }
                 keyboardType="numeric"
@@ -178,7 +165,7 @@ const Objects: React.FC = () => {
                 onChangeText={(text) =>
                     setNewRealEstate({
                         ...newRealEstate,
-                        rooms_quantity: parseFloat(text) || null,
+                        rooms_quantity: parseInt(text) || null,
                     })
                 }
                 keyboardType="numeric"
@@ -200,7 +187,7 @@ const Objects: React.FC = () => {
                 onChangeText={(text) =>
                     setNewRealEstate({
                         ...newRealEstate,
-                        floor: parseFloat(text) || null,
+                        floor: parseInt(text) || null,
                     })
                 }
                 keyboardType="numeric"
