@@ -6,6 +6,7 @@ import {
     Button,
     FlatList,
     TouchableOpacity,
+    ScrollView,
 } from 'react-native';
 import axios from 'axios';
 
@@ -96,7 +97,7 @@ const Objects: React.FC = () => {
     };
 
     return (
-        <View>
+        <ScrollView>
             <Text>Добавить объект недвижимости</Text>
             <TextInput
                 placeholder="Введите город"
@@ -227,7 +228,7 @@ const Objects: React.FC = () => {
                     </View>
                 )}
             />
-        </View>
+        </ScrollView>
     );
 };
 

@@ -41,12 +41,17 @@ class RentalObject(models.Model):
     )
     city_name = models.CharField(max_length=100, blank=True, null=True)
     street_name = models.CharField(max_length=100, blank=True, null=True)
+    house_number = models.CharField(max_length=100, blank=True, null=True)
+    flat_number = models.CharField(max_length=100, blank=True, null=True)
+
     house_floors_quantity = models.DecimalField(max_digits=999, decimal_places=2, blank=True, null=True)
     house_rooms_quantity = models.DecimalField(max_digits=99, decimal_places=2, blank=True, null=True)
     house_square = models.DecimalField(max_digits=99, decimal_places=2, blank=True, null=True)
+
     flat_floor = models.DecimalField(max_digits=3, decimal_places=2, blank=True, null=True)
     flat_rooms_quantity = models.DecimalField(max_digits=99, decimal_places=2, blank=True, null=True)
     flat_square = models.DecimalField(max_digits=99, decimal_places=2, blank=True, null=True)
+
     field_square = models.DecimalField(max_digits=99, decimal_places=2, blank=True, null=True)
 
     class Meta:
