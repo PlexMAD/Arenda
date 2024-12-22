@@ -6,6 +6,7 @@ router = DefaultRouter()
 
 router.register(r'clients', ClientViewSet)
 router.register(r'rieltors', RieltorViewSet)
+router.register(r'rental', RentalObjectViewSet)
 
 urlpatterns = [
     path('', include(router.urls))]

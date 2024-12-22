@@ -39,38 +39,16 @@ class RentalObject(models.Model):
             MaxValueValidator(90)
         ]
     )
-    city = models.ForeignKey('City', on_delete=models.CASCADE)
-    street = models.ForeignKey('Street', max_length=100, db_column='Улица', blank=True, on_delete=models.CASCADE)
-    house = models.ForeignKey('House', max_length=100, db_column='Дом', blank=True, on_delete=models.CASCADE)
-    flat = models.ForeignKey('Flat', max_length=100, db_column='Квартира', blank=True, on_delete=models.CASCADE)
+    city_name = models.CharField(max_length=100, blank=True, null=True)
+    street_name = models.CharField(max_length=100, blank=True, null=True)
+    house_floors_quantity = models.DecimalField(max_digits=999, decimal_places=2, blank=True, null=True)
+    house_rooms_quantity = models.DecimalField(max_digits=99, decimal_places=2, blank=True, null=True)
+    house_square = models.DecimalField(max_digits=99, decimal_places=2, blank=True, null=True)
+    flat_floor = models.DecimalField(max_digits=3, decimal_places=2, blank=True, null=True)
+    flat_rooms_quantity = models.DecimalField(max_digits=99, decimal_places=2, blank=True, null=True)
+    flat_square = models.DecimalField(max_digits=99, decimal_places=2, blank=True, null=True)
+    field_square = models.DecimalField(max_digits=99, decimal_places=2, blank=True, null=True)
 
     class Meta:
         db_table = 'RentalObject'
 
-
-class City(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-
-
-class Street(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-
-
-class House(models.Model):
-    id = models.AutoField(primary_key=True)
-    floors_quantity = models.DecimalField(max_digits=999, decimal_places=2, blank=True, null=True)
-    rooms_quantity = models.DecimalField(max_digits=99, decimal_places=2, blank=True, null=True)
-    square = models.DecimalField(max_digits=99, decimal_places=2, blank=True, null=True)
-
-
-class Flat(models.Model):
-    id = models.AutoField(primary_key=True)
-    floor = models.DecimalField(max_digits=3, decimal_places=2, blank=True, null=True)
-    rooms_quantity = models.DecimalField(max_digits=99, decimal_places=2, blank=True, null=True)
-    square = models.DecimalField(max_digits=99, decimal_places=2, blank=True, null=True)
-
-class Field(models.Model):
-    id = models.AutoField(primary_key=True)
-    square = models.DecimalField(max_digits=99, decimal_places=2, blank=True, null=True)

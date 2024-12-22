@@ -2,8 +2,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rapidfuzz.distance import Levenshtein
-from .models import Client, Rieltor
-from .serializers import ClientSerializer, RieltorSerializer
+from .models import *
+from .serializers import *
 
 
 class ClientViewSet(viewsets.ModelViewSet):
@@ -55,3 +55,8 @@ class RieltorViewSet(viewsets.ModelViewSet):
         filtered_rieltors = self.fuzzy_filter(query, rieltors)
         serializer = self.get_serializer(filtered_rieltors, many=True)
         return Response(serializer.data)
+
+
+class RentalObjectViewSet(viewsets.ModelViewSet):
+    queryset = RentalObject.objects.all()
+    serializer_class = RentalObjectSerializer

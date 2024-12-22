@@ -15,10 +15,16 @@ const Main: React.FC<any> = ({ navigation }) => {
             <View style={mainStyle.main}>
                 <Text style={mainStyle.title}>Приложение ESOFT</Text>
                 <TouchableOpacity
-                    style={mainStyle.main__button} // Применяем стиль кнопки
+                    style={mainStyle.main__button}
                     onPress={() => loadScene('User')}
                 >
                     <Text style={mainStyle.main__buttonText}>Создать пользователя</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={mainStyle.main__button}
+                    onPress={() => loadScene('Objects')}
+                >
+                    <Text style={mainStyle.main__buttonText}>Создать объект недвижимости</Text>
                 </TouchableOpacity>
             </View>
         </ImageBackground>
